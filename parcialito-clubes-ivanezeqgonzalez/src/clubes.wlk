@@ -10,6 +10,7 @@ object sistema{
 	}
 	method cantidadDeSanciones(equipo) = equipo.cantidadDeSanciones()
 	method actividadEstaSuspendida(actividad) = actividad.suspendido()
+	method evaluarActividad(actividad) = actividad.evaluar() //social o deportiva
 }
 
 
@@ -34,7 +35,9 @@ class Club{
 	method cantidadDeSocios() = actividades.sum({a => a.cantidadDeSocios()})
 }
 class Equipo{
+	var property puntosPorSancion = 20
 	var property cantidadDeSanciones = 0
+	var property campeonatosObtenidos = 0
 	var plantel = #{}
 	var property capitan = null
 	
@@ -48,6 +51,21 @@ class Equipo{
 	method agregarCapitan(jugador){
 		plantel.add(jugador)
 		capitan = jugador
+	}
+	method evaluar()= {
+		5* campeonatosObtenidos + 
+		2* plantel.size() + 
+		if (capitan.esEstrella()) 5 else 0 -
+		puntosPorSancion * cantidadDeSanciones		
+	}	
+	method equipoEsExperimentado() = plantel.all({j => j.partidosJugados() >= 10 })
+	
+}
+class EquipoDeFutbol inherits Equipo{
+	override  puntosPorSancion = 30
+	method estrellasDelPlantel() = plantel.sum({j=> j.esEstrella()})
+	override method evaluar(){
+		return super() + 5* self.estrellasDelPlantel() + if (capitan.esEstrella()) 10 else 0
 	}
 }
 
@@ -65,8 +83,6 @@ class Jugador{
 	
 	
 } 
-//Cada actividad (sea un equipo o una actividad social) es evaluada. La evaluación de un club depende de las evaluaciones de sus actividades, 
-//las cuales pueden ser modificadas por las sanciones que reciben.
 
 class ActividadSocial{
 	var property sociosParticipantes = null //tambien pueden ser jugadores
