@@ -38,7 +38,8 @@ class Club{
 		self.sociosDestacados() + equipos.filter({e => e.jugadoresEstrella()})
 		+ actividades.filter({a => a.esEstrella()})
 	}
-	method esPrestigioso() = equipos.any({e => e.equipoExperimentado()}) || actividades.any({})
+	method esPrestigioso() = equipos.any({e => e.equipoExperimentado()}) 
+		|| actividades.any({a=> a.cantidadSociosEstrella()})
 }
 
 class Equipo{
@@ -101,6 +102,7 @@ class ActividadSocial{
 	method recibirSancion(){estaSuspendido = true}
 	method removerSancion(){estaSuspendido = false}
 	method socioDestacado() = organizador
+	method cantidadSociosEstrella() = sociosParticipantes.sum({s => s.esEstrella()})
 }
 
 class Socio{
