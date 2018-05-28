@@ -34,6 +34,9 @@ class Club{
 	}
 	method cantidadDeSocios() = actividades.sum({a => a.cantidadDeSocios()})
 	method sociosDestacados() = equipo.map({e => e.jugadoresDestacados()}) + actividades.map({s => s.sociosDestacados()})
+	method sociosDestacadosYEstrella() = 
+		self.sociosDestacados() + equipo.filter({e => e.jugadoresEstrella()})
+		+ actividades.filter({a => a.esEstrella()})
 }
 
 class Equipo{
@@ -61,7 +64,8 @@ class Equipo{
 		puntosPorSancion * cantidadDeSanciones		
 	}	
 	method equipoEsExperimentado() = plantel.all({j => j.partidosJugados() >= 10 })
-	method jugadoresDestacados() = capitan 
+	method jugadoresDestacados() = capitan
+	method jugadoresEstrella()= plantel.filter({j => j.esEstrella()}) 
 }
 
 class EquipoDeFutbol inherits Equipo{
