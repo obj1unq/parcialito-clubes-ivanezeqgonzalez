@@ -1,9 +1,32 @@
+//Un Sistema modela las sanciones y el valor de pase? 
+object sistema{
+	
+	
+}
+
+
+
 class Club{
 	var property equipo = null
-	//var property focoDeLaInstitucion = null // puede ser tradicional, comunitario, o profesional.
-	method esEstrella(jugador) 
+	var property actividades = #{}
+	
+	method agregrarActividades(actividad){actividades.add(actividad)}
+	method removerActividades(actividad){actividades.remove(actividad)}
+	method esEstrella(jugador)
+	method recibirSancion(){
+		if (self.cantidadDeSocios() > 500){
+			actividades.forEach({actividad => actividad.suspenderActividad()})
+		}else{
+			actividades.anyOne().suspenderActividad()
+		}
+	}
+	method retirarSancion(){
+		actividades.forEach({actividad => actividad.reanudarActividad()})
+	}
+	method cantidadDeSocios() = actividades.sum({a => a.cantidadDeSocios()})
 }
 class Equipo{
+	var property cantidadDeSanciones = 0
 	var plantel = #{}
 	var property capitan = null
 	
@@ -18,6 +41,7 @@ class Equipo{
 		plantel.add(jugador)
 		capitan = jugador
 	}
+	method suspender
 }
 
 
@@ -40,6 +64,10 @@ class Jugador{
 class ActividadSocial{
 	var property sociosParticipantes = null //tambien pueden ser jugadores
 	var property organizador = null
+	var estaSuspendido = false
+	method cantidadDeSocios() = sociosParticipantes.size() 
+	method suspenderActividad(){estaSuspendido = true}
+	method reanudarActividad(){estaSuspendido = false}
 }
 
 class Socio{
