@@ -1,7 +1,15 @@
 //Un Sistema modela las sanciones y el valor de pase? 
 object sistema{
+	var property valorDePase = null
 	
-	
+	method sancionar(clubOActividad){
+		clubOActividad.recibirSancion()
+	}
+	method reanudarActividadSocial(actividad){
+		actividad.removerSancion()
+	}
+	method cantidadDeSanciones(equipo) = equipo.cantidadDeSanciones()
+	method actividadEstaSuspendida(actividad) = actividad.suspendido()
 }
 
 
@@ -41,7 +49,6 @@ class Equipo{
 		plantel.add(jugador)
 		capitan = jugador
 	}
-	method suspender
 }
 
 
@@ -66,8 +73,8 @@ class ActividadSocial{
 	var property organizador = null
 	var estaSuspendido = false
 	method cantidadDeSocios() = sociosParticipantes.size() 
-	method suspenderActividad(){estaSuspendido = true}
-	method reanudarActividad(){estaSuspendido = false}
+	method recibirSancion(){estaSuspendido = true}
+	method removerSancion(){estaSuspendido = false}
 }
 
 class Socio{
@@ -84,12 +91,11 @@ class ClubComunitario inherits Club{
 class ClubTradicional inherits Club{
 	var property valorDePase = null
 	//puede ser estrella tanto porque su pase supera el valor configurado o porque participa en 3 o más actividades del club.
-	override method esEstrella(jugador) = jugador.numeroDeActividades() >= 3 || jugador.valorDePase() > valorDePase
+	override method esEstrella(jugador) = jugador.numeroDeActividades() >= 3 || jugador.valorDePase() > sistema.valorDePase()
 	
 }
 class ClubProfesional inherits Club{
-	var property valorDePase = null
-	override method esEstrella(jugador) = jugador.valorDePase() > valorDePase
+	override method esEstrella(jugador) = jugador.valorDePase() > sistema.valorDePase()
 }
 
 
