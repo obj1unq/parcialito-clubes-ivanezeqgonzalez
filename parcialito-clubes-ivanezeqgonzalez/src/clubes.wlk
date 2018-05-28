@@ -33,7 +33,9 @@ class Club{
 		actividades.forEach({actividad => actividad.reanudarActividad()})
 	}
 	method cantidadDeSocios() = actividades.sum({a => a.cantidadDeSocios()})
+	method sociosDestacados() = equipo.map({e => e.jugadoresDestacados()}) + actividades.map({s => s.sociosDestacados()})
 }
+
 class Equipo{
 	var property puntosPorSancion = 20
 	var property cantidadDeSanciones = 0
@@ -59,8 +61,9 @@ class Equipo{
 		puntosPorSancion * cantidadDeSanciones		
 	}	
 	method equipoEsExperimentado() = plantel.all({j => j.partidosJugados() >= 10 })
-	
+	method jugadoresDestacados() = capitan 
 }
+
 class EquipoDeFutbol inherits Equipo{
 	override  puntosPorSancion = 30
 	method estrellasDelPlantel() = plantel.sum({j=> j.esEstrella()})
@@ -91,6 +94,7 @@ class ActividadSocial{
 	method cantidadDeSocios() = sociosParticipantes.size() 
 	method recibirSancion(){estaSuspendido = true}
 	method removerSancion(){estaSuspendido = false}
+	method socioDestacado() = organizador
 }
 
 class Socio{
