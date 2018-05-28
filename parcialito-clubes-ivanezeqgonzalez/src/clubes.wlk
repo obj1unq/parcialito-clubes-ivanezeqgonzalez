@@ -38,7 +38,7 @@ class Club{
 		self.sociosDestacados() + equipos.filter({e => e.jugadoresEstrella()})
 		+ actividades.filter({a => a.esEstrella()})
 	}
-	method esPrestigioso() = equipos.any({e => e.equipoExperimentado()}) || 
+	method esPrestigioso() = equipos.any({e => e.equipoExperimentado()}) || actividades.any({})
 }
 
 class Equipo{
