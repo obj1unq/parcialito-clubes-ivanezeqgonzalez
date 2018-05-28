@@ -16,7 +16,7 @@ object sistema{
 
 
 class Club{
-	var property equipo = null
+	var property equipos = #{}
 	var property actividades = #{}
 	
 	method agregrarActividades(actividad){actividades.add(actividad)}
@@ -33,10 +33,12 @@ class Club{
 		actividades.forEach({actividad => actividad.reanudarActividad()})
 	}
 	method cantidadDeSocios() = actividades.sum({a => a.cantidadDeSocios()})
-	method sociosDestacados() = equipo.map({e => e.jugadoresDestacados()}) + actividades.map({s => s.sociosDestacados()})
-	method sociosDestacadosYEstrella() = 
-		self.sociosDestacados() + equipo.filter({e => e.jugadoresEstrella()})
+	method sociosDestacados() = equipos.map({e => e.jugadoresDestacados()}) + actividades.map({s => s.sociosDestacados()})
+	method sociosDestacadosYEstrella(){ 
+		self.sociosDestacados() + equipos.filter({e => e.jugadoresEstrella()})
 		+ actividades.filter({a => a.esEstrella()})
+	}
+	method esPrestigioso() = equipos.any({e => e.equipoExperimentado()}) || 
 }
 
 class Equipo{
